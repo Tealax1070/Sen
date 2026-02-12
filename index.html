@@ -5,15 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pour toi ❤️</title>
 
-<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
     font-family: 'Poppins', sans-serif;
@@ -22,10 +17,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    position: relative;
 }
 
 .card {
-    background: white;
+    background: rgba(255,255,255,0.95);
     padding: 50px 40px;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.2);
@@ -33,6 +30,7 @@ body {
     max-width: 400px;
     width: 90%;
     position: relative;
+    z-index: 2;
 }
 
 h1 {
@@ -61,9 +59,7 @@ button {
     color: white;
 }
 
-#yesBtn:hover {
-    background: #e63956;
-}
+#yesBtn:hover { background: #e63956; }
 
 #noBtn {
     background: #f1f1f1;
@@ -78,39 +74,78 @@ button {
     font-weight: 500;
 }
 
+/* Coeurs */
+.heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    transform: rotate(45deg);
+    left: 50%;
+    animation: fall 3s linear infinite;
+    z-index: 1;
+}
+
+.heart::before,
+.heart::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%;
+}
+
+.heart::before { top: -10px; left: 0; }
+.heart::after { left: 10px; top: 0; }
+
+@keyframes fall {
+    0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
+}
+
 /* Mobile */
 @media (max-width: 480px) {
-    .card {
-        padding: 40px 20px;
-    }
+    .card { padding: 40px 20px; }
+    h1 { font-size: 22px; }
+    button { font-size: 14px; padding: 10px 20px; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-    <h1>Ma chère Ness, veux-tu être ma Valentine ? 💘</h1>
+<!-- Pluie de coeurs -->
+<div id="heartsContainer"></div>
 
+<div class="card">
+    <h1>Veux-tu être ma Valentine ? 💘</h1>
     <div class="buttons">
         <button id="yesBtn">Oui ❤️</button>
-        <button id="noBtn">Non 😢</button>
+        <button id="noBtn">Non 😈</button>
     </div>
-
     <div id="message"></div>
+
+    <!-- Vidéo intégrée -->
+    <video id="loveVideo" width="100%" style="margin-top:20px; border-radius:15px; display:none;" controls>
+        <source src="video.mp4" type="video/mp4">
+        Votre navigateur ne supporte pas la vidéo.
+    </video>
 </div>
 
 <script>
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const message = document.getElementById("message");
+const heartsContainer = document.getElementById("heartsContainer");
+const loveVideo = document.getElementById("loveVideo");
 
 let scale = 1;
 
+// Bouger le bouton NON
 function moveButton() {
     const card = document.querySelector(".card");
     const rect = card.getBoundingClientRect();
-
     const maxX = rect.width - noBtn.offsetWidth;
     const maxY = rect.height - noBtn.offsetHeight;
 
@@ -121,19 +156,44 @@ function moveButton() {
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 
+    // Grossir bouton OUI
     scale += 0.1;
     yesBtn.style.transform = "scale(" + scale + ")";
 }
 
+// PC et mobile
 noBtn.addEventListener("mouseenter", moveButton);
 noBtn.addEventListener("touchstart", function(e){
     e.preventDefault();
     moveButton();
 });
 
+// Quand on clique sur OUI
 yesBtn.addEventListener("click", function() {
-    message.innerHTML = "T'es déjà ma valentine lol... c'était juste pour faire une déclaration officielle.😂❤️";
+    message.innerHTML = "🥰 Trop tard... tu es déjà coincée avec moi pour toujours ❤️";
+
+    // Afficher vidéo
+    loveVideo.style.display = "block";
+
+    // Lancer pluie de coeurs
+    for(let i=0;i<30;i++){
+        createHeart();
+    }
 });
+
+// Fonction créer coeurs
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.animationDuration = (2+Math.random()*2) + "s";
+    heart.style.width = heart.style.height = (10+Math.random()*20) + "px";
+    heartsContainer.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 4000);
+}
 </script>
 
 </body>
