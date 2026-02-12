@@ -2,30 +2,63 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Saint Valentin 💘</title>
-<link rel="stylesheet" href="style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-    
-<script>
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-const message = document.getElementById("message");
+<title>Saint Valentin 💘</title>
 
-function moveButton() {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+<style>
+body {
+    background: linear-gradient(135deg, #ff4e8b, #ff9ecf);
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
-noBtn.addEventListener("mouseover", moveButton);
-noBtn.addEventListener("touchstart", moveButton);
+h1 {
+    color: white;
+    font-size: 32px;
+    padding: 0 20px;
+}
 
-yesBtn.addEventListener("click", function() {
-    message.innerHTML = "🥰 Trop tard... tu es déjà coincée avec moi ❤️";
-});
-</script>
+button {
+    padding: 15px 30px;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 15px;
+    transition: 0.2s;
+}
+
+#yesBtn {
+    background-color: #00ff99;
+}
+
+#noBtn {
+    background-color: #ff3333;
+    position: absolute;
+}
+
+#message {
+    font-size: 24px;
+    color: white;
+    margin-top: 30px;
+    padding: 0 20px;
+}
+
+/* Adaptation mobile */
+@media (max-width: 600px) {
+    h1 { font-size: 24px; }
+    button { font-size: 18px; padding: 12px 20px; }
+    #message { font-size: 20px; }
+}
+</style>
+</head>
 
 <body>
 
@@ -41,11 +74,24 @@ const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const message = document.getElementById("message");
 
-noBtn.addEventListener("mouseover", function() {
-    const x = Math.random() * window.innerWidth;
-    const y = Math.random() * window.innerHeight;
+function moveButton() {
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
+}
+
+// PC (souris)
+noBtn.addEventListener("mouseenter", moveButton);
+
+// Mobile (tactile)
+noBtn.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    moveButton();
 });
 
 yesBtn.addEventListener("click", function() {
