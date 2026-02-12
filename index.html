@@ -18,9 +18,11 @@ body {
     align-items: center;
     overflow: hidden;
     position: relative;
+    background-color: #ffc0cb; /* rose clair par défaut */
+    transition: background-color 1s ease;
 }
 
-/* Vidéo en arrière-plan */
+/* Vidéo en arrière-plan, cachée au départ */
 #bgVideo {
     position: fixed;
     top:0;
@@ -29,12 +31,12 @@ body {
     height:100%;
     object-fit: cover;
     z-index: 0;
-    filter: brightness(0.6); /* dimmer la vidéo pour que le texte soit lisible */
+    display: none; /* cachée tant que pas de clic */
 }
 
 /* Carte du contenu */
 .card {
-    background: rgba(255, 182, 193, 0.85));
+    background: rgba(255, 182, 193, 0.85); /* rose semi-transparent */
     padding: 50px 40px;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.2);
@@ -127,8 +129,8 @@ button {
 
 <body>
 
-<!-- Vidéo en arrière-plan -->
-<video id="bgVideo" autoplay loop playsinline>
+<!-- Vidéo en arrière-plan, cachée -->
+<video id="bgVideo" loop playsinline>
     <source src="video.mp4" type="video/mp4">
     Votre navigateur ne supporte pas la vidéo.
 </video>
@@ -150,6 +152,8 @@ const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const message = document.getElementById("message");
 const heartsContainer = document.getElementById("heartsContainer");
+const bgVideo = document.getElementById("bgVideo");
+const body = document.body;
 
 let scale = 1;
 
@@ -181,12 +185,20 @@ noBtn.addEventListener("touchstart", function(e){
 
 // Quand on clique sur OUI
 yesBtn.addEventListener("click", function() {
-    message.innerHTML = "T'es déjà ma valentine lol... c'était juste pour faire une déclaration officielle.😂❤️";
+    message.innerHTML = "T'es déjà ma valentine lol...c'était juste pour faire une déclaration officielle.😂❤️";
 
     // Lancer pluie de coeurs
     for(let i=0;i<30;i++){
         createHeart();
     }
+
+    // Afficher et lancer la vidéo avec son
+    bgVideo.style.display = "block";
+    bgVideo.muted = false;
+    bgVideo.play();
+
+    // Optionnel : enlever le fond rose pour laisser la vidéo
+    body.style.backgroundColor = "transparent";
 });
 
 // Fonction créer coeurs
