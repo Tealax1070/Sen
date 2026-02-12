@@ -13,7 +13,6 @@
 body {
     font-family: 'Poppins', sans-serif;
     height: 100vh;
-    background: linear-gradient(135deg, #ff758c, #ff7eb3);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,6 +20,19 @@ body {
     position: relative;
 }
 
+/* Vidéo en arrière-plan */
+#bgVideo {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    z-index: 0;
+    filter: brightness(0.6); /* dimmer la vidéo pour que le texte soit lisible */
+}
+
+/* Carte du contenu */
 .card {
     background: rgba(255,255,255,0.95);
     padding: 50px 40px;
@@ -74,7 +86,7 @@ button {
     font-weight: 500;
 }
 
-/* Coeurs */
+/* Pluie de coeurs */
 .heart {
     position: absolute;
     width: 20px;
@@ -115,6 +127,12 @@ button {
 
 <body>
 
+<!-- Vidéo en arrière-plan -->
+<video id="bgVideo" autoplay muted loop playsinline>
+    <source src="video.mp4" type="video/mp4">
+    Votre navigateur ne supporte pas la vidéo.
+</video>
+
 <!-- Pluie de coeurs -->
 <div id="heartsContainer"></div>
 
@@ -125,12 +143,6 @@ button {
         <button id="noBtn">Non 😢</button>
     </div>
     <div id="message"></div>
-
-    <!-- Vidéo intégrée -->
-    <video id="loveVideo" width="100%" style="margin-top:20px; border-radius:15px; display:none;" controls>
-        <source src="video.mp4" type="video/mp4">
-        Votre navigateur ne supporte pas la vidéo.
-    </video>
 </div>
 
 <script>
@@ -138,7 +150,6 @@ const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const message = document.getElementById("message");
 const heartsContainer = document.getElementById("heartsContainer");
-const loveVideo = document.getElementById("loveVideo");
 
 let scale = 1;
 
@@ -171,9 +182,6 @@ noBtn.addEventListener("touchstart", function(e){
 // Quand on clique sur OUI
 yesBtn.addEventListener("click", function() {
     message.innerHTML = "T'es déjà ma valentine lol... c'était juste pour faire une déclaration officielle.😂❤️";
-
-    // Afficher vidéo
-    loveVideo.style.display = "block";
 
     // Lancer pluie de coeurs
     for(let i=0;i<30;i++){
