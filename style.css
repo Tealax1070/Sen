@@ -35,3 +35,20 @@ button {
     color: white;
     margin-top: 40px;
 }
+@media (max-width: 600px) {
+
+    h1 {
+        font-size: 26px;
+        padding: 0 15px;
+    }
+
+    button {
+        font-size: 18px;
+        padding: 12px 20px;
+    }
+
+    #message {
+        font-size: 22px;
+        padding: 0 15px;
+    }
+}
