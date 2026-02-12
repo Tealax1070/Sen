@@ -1,0 +1,14 @@
+body {
+    background-color: pink;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: white;
+}
+
+button {
+    padding: 15px;
+    font-size: 20px;
+}
